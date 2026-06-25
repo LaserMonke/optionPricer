@@ -394,7 +394,7 @@ top_cols = st.columns([1, 1, 1, 1.4])
 with top_cols[0]:
     st.metric("Spot Price", f"${snapshot.spot_price:,.2f}")
 with top_cols[1]:
-    st.metric("Dividend Yield", f"{snapshot.dividend_yield:.2f}%")
+    st.metric("Dividend Yield", f"{snapshot.dividend_yield * 100:.2f}%")
 with top_cols[2]:
     st.metric("Listed Expirations", f"{len(snapshot.expirations)}")
 with top_cols[3]:
