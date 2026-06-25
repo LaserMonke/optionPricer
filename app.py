@@ -390,7 +390,7 @@ except Exception as e:
 company_label = f"{snapshot.company_name} ({snapshot.ticker})" if snapshot.company_name else snapshot.ticker
 st.markdown(f"#### {company_label}")
 
-top_cols = st.columns(4)
+top_cols = st.columns([1, 1, 1, 1.4])
 with top_cols[0]:
     st.metric("Spot Price", f"${snapshot.spot_price:,.2f}")
 with top_cols[1]:
@@ -398,8 +398,13 @@ with top_cols[1]:
 with top_cols[2]:
     st.metric("Listed Expirations", f"{len(snapshot.expirations)}")
 with top_cols[3]:
-    nearest = snapshot.expirations[0] if snapshot.expirations else "—"
-    st.metric("Nearest Expiry", nearest)
+    if snapshot.expirations:
+        nearest_date = dt.datetime.strptime(snapshot.expirations[0], "%Y-%m-%d").date()
+        nearest_display = nearest_date.strftime("%b %d, %Y")
+        days_out = (nearest_date - dt.date.today()).days
+        st.metric("Nearest Expiry", nearest_display, help=f"{days_out} days from today ({snapshot.expirations[0]})")
+    else:
+        st.metric("Nearest Expiry", "—")
 
 st.write("")
 
