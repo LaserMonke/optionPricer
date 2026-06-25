@@ -625,15 +625,17 @@ st.write("")
 # --------------------------------------------------------------------------- #
 # Visualization: Payoff diagram at expiry
 # --------------------------------------------------------------------------- #
-
+position = "top"
 st.markdown("### Payoff at Expiration")
 st.markdown('<div class="accent-line"></div>', unsafe_allow_html=True)
 
 spot_range = np.linspace(result.spot_price * 0.5, result.spot_price * 1.5, 200)
 if option_type == "call":
     payoff = np.maximum(spot_range - result.strike, 0) - result.option_price
+    position = "top right"
 else:
     payoff = np.maximum(result.strike - spot_range, 0) - result.option_price
+    position = "top left"
 
 breakeven = (
     result.strike + result.option_price if option_type == "call"
@@ -655,7 +657,7 @@ fig2.add_vline(x=result.strike, line_dash="dash", line_color="#8a92a6",
 fig2.add_vline(x=result.spot_price, line_dash="dot", line_color=GOOD,
                annotation_text="Spot", annotation_position="bottom")
 fig2.add_vline(x=breakeven, line_dash="dash", line_color="#f59e0b",
-               annotation_text=f"Breakeven ${breakeven:,.2f}", annotation_position="top left")
+               annotation_text=f"Breakeven ${breakeven:,.2f}", annotation_position=position)
 
 fig2.update_layout(
     template=PLOTLY_DARK_TEMPLATE,
