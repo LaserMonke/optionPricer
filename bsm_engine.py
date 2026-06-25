@@ -279,12 +279,15 @@ def get_market_snapshot(ticker: str) -> MarketSnapshot:
             div_yield = 0.0
         else:
             div_yield = float(div_yield)
-            # yfinance has, at various versions, returned this as a fraction
-            # (0.005) or as a percentage points (0.50 meaning 0.50%). Guard
-            # against the unit ambiguity: anything above 0.5 (50%) for a
-            # "yield" is almost certainly already a percentage, not a fraction.
-            if div_yield > 0.5:
+            if div_yield > 0.15:
+                # Implausible as a fraction (e.g. would mean >15%) -- assume
+                # it's actually in percentage-point terms and convert.
                 div_yield = div_yield / 100.0
+            if div_yield > 0.15 or div_yield < 0:
+                # Still implausible even after conversion (e.g. a stray 50.0
+                # becoming 0.50, or corrupted data) -- don't trust it, fall
+                # back to 0 rather than feeding a nonsense rate into BSM.
+                div_yield = 0.0
 
         try:
             expirations = list(tk.options)
