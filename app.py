@@ -655,7 +655,7 @@ fig2.add_vline(x=result.strike, line_dash="dash", line_color="#8a92a6",
 fig2.add_vline(x=result.spot_price, line_dash="dot", line_color=GOOD,
                annotation_text="Spot", annotation_position="bottom")
 fig2.add_vline(x=breakeven, line_dash="dash", line_color="#f59e0b",
-               annotation_text=f"Breakeven ${breakeven:,.2f}", annotation_position="top right")
+               annotation_text=f"Breakeven ${breakeven:,.2f}", annotation_position="top left")
 
 fig2.update_layout(
     template=PLOTLY_DARK_TEMPLATE,
