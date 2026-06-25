@@ -602,32 +602,20 @@ st.plotly_chart(fig, use_container_width=True)
 
 # --- IV methodology transparency box ---
 iv_r = result.iv_result
-
 if iv_r.far_expiry:
     method_detail = (
-        f"Blended <b>{(1 - iv_r.weight_far) * 100:.1f}%</b> weight on "
-        f"<b>{iv_r.near_expiry}</b> "
-        f"(IV {iv_r.near_iv*100:.2f}%) and "
-        f"<b>{iv_r.weight_far * 100:.1f}%</b> weight on "
-        f"<b>{iv_r.far_expiry}</b> "
-        f"(IV {iv_r.far_iv*100:.2f}%), each strike-interpolated "
+        f"Blended **{(1 - iv_r.weight_far) * 100:.1f}%** weight on **{iv_r.near_expiry}** "
+        f"(IV {iv_r.near_iv*100:.2f}%) and **{iv_r.weight_far * 100:.1f}%** weight on "
+        f"**{iv_r.far_expiry}** (IV {iv_r.far_iv*100:.2f}%), each strike-interpolated "
         f"from that expiry's smile at K=${result.strike:,.2f}."
     )
 else:
     method_detail = (
-        f"Used the single nearest listed expiration "
-        f"<b>{iv_r.near_expiry}</b> "
-        f"(IV {iv_r.near_iv*100:.2f}%), "
-        f"strike-interpolated at K=${result.strike:,.2f}."
+        f"Used the single nearest listed expiration **{iv_r.near_expiry}** "
+        f"(IV {iv_r.near_iv*100:.2f}%), strike-interpolated at K=${result.strike:,.2f}."
     )
-
 st.markdown(
-    f"""
-    <div class="info-box">
-        <b>IV Methodology:</b> {iv_r.method}.<br><br>
-        {method_detail}
-    </div>
-    """,
+    f'<div class="info-box"><b>IV methodology:</b> {iv_r.method}.<br/>{method_detail}</div>',
     unsafe_allow_html=True,
 )
 
