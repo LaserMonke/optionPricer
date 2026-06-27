@@ -629,7 +629,9 @@ position = "top"
 st.markdown("### Payoff at Expiration")
 st.markdown('<div class="accent-line"></div>', unsafe_allow_html=True)
 
-spot_range = np.linspace(result.spot_price * 0.5, result.spot_price * 1.5, 200)
+range_lo = min(result.spot_price, result.strike) * 0.5
+range_hi = max(result.spot_price, result.strike) * 1.5
+spot_range = np.linspace(range_lo, range_hi, 200)
 if option_type == "call":
     payoff = np.maximum(spot_range - result.strike, 0) - result.option_price
     position = "top right"
